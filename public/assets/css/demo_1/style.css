@@ -24073,7 +24073,7 @@ select {
 .auth-page .auth-left-wrapper {
   background-position: center;
   height: 100%;
-  background-image: url(https://hue-engineering.com/wp-content/uploads/2021/10/3.jpg);
+  background-image: url(/assets/images/loginBackground.webp);
   background-size: cover;
   background-repeat: no-repeat;    
   filter: opacity(0.9);}
