@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 Route::permanentRedirect('/authentication', '/authentication/login');
@@ -17,12 +18,16 @@ Route::prefix('authentication')->name('authentication.')->controller(AuthControl
 
 Route::middleware('auth')->group(function () {
     // Admin Routes
-    Route::middleware('can:admin')->name('admin.')->group(function () {
-        Route::get('/add-new-user', function () {
-            return 'Add New User';
-        })->name('add-new-user');
+    Route::middleware('can:admin')->name('admin.')->prefix('admin')->group(function () {
+        Route::get('/add-new-user', [AdminController::class, 'create'])->name('add-new-user');
+        Route::resource('users', AdminController::class);
     });
-
+    
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [MainController::class, 'profile'])->name('index');
+        Route::put('/update', [MainController::class, 'updateProfile'])->name('update');
+    });
+    
     // User Routes
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [MainController::class, 'index'])->name('home');
 });

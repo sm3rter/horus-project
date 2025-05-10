@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class LoginRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +22,10 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email:exists,users'],
-            'password' => ['required'],
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $this->user->id,
+            'password' => 'nullable|string',
+            'role' => 'required|string',
         ];
     }
 }
