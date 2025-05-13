@@ -40,31 +40,47 @@
 						</a>
 					</li>
 					@admin
-					<li class="nav-item nav-category">Admin</li>
-					<li @class(['nav-item', 'active' => request()->routeIs('admin.users.*'),])>
-						<a class="nav-link" data-toggle="collapse" href="#users" role="button" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}" aria-controls="users">
-							<i class="link-icon" data-feather="users"></i>
-							<span class="link-title">Users</span>
+						<li class="nav-item nav-category">Admin</li>
+						<li class="nav-item @isLinkActive('admin.users.*') active @endisLinkActive">
+							<a class="nav-link" data-toggle="collapse" href="#users" role="button" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}" aria-controls="users">
+								<i class="link-icon" data-feather="users"></i>
+								<span class="link-title">Users</span>
+								<i class="link-arrow" data-feather="chevron-down"></i>
+							</a>
+							<div class="collapse @isLinkActive('admin.users.*') show @endisLinkActive" id="users">
+								<ul class="nav sub-menu">
+									<li class="nav-item">
+										<a href="{{ route('admin.users.index') }}" class="nav-link @isLinkActive('admin.users.index') active @endisLinkActive">All Users</a>
+									</li>
+									<li class="nav-item">
+										<a href="{{ route('admin.users.create') }}" class="nav-link @isLinkActive('admin.users.create') active @endisLinkActive">Add New User</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					@endadmin
+					<li class="nav-item nav-category">Courses</li>
+					<li class="nav-item @isLinkActive('courses.*') active @endisLinkActive">
+						<a class="nav-link" data-toggle="collapse" href="#courses" role="button" aria-expanded="{{ request()->routeIs('courses.*') ? 'true' : 'false' }}" aria-controls="courses">
+							<i class="link-icon" data-feather="book"></i>
+							<span class="link-title">Courses</span>
 							<i class="link-arrow" data-feather="chevron-down"></i>
 						</a>
-						<div @class(['collapse', 'show' => request()->routeIs('admin.users.*')]) id="users">
+						<div class="collapse @isLinkActive('courses.*') show @endisLinkActive" id="courses">
 							<ul class="nav sub-menu">
-								<li class="nav-item">
-									<a href="{{ route('admin.users.index') }}" @class([
-										'nav-link',
-										'active' => request()->routeIs('admin.users.index'),
-									])>All Users</a>
-								</li>
-								<li class="nav-item">
-									<a href="{{ route('admin.users.create') }}" @class([
-										'nav-link',
-										'active' => request()->routeIs('admin.users.create'),
-									])>Add New User</a>
-								</li>
+								@foreach (\App\Enums\CourseLevel::cases() as $courseLevel)
+									@php
+										$courseLevelNum = explode('_', $courseLevel->value)[1];
+									@endphp
+									<li class="nav-item">
+										<a href="{{ route('courses.showLevel', ['level' => $courseLevelNum]) }}" class="nav-link @isLinkActive('courses.index', ['level' => $courseLevelNum]) active @endisLinkActive">	
+											{{ 'Level ' . $courseLevelNum }}
+										</a>
+									</li>
+								@endforeach
 							</ul>
 						</div>
 					</li>
-					@endadmin
 				</ul>
 			</div>
 		</nav>
