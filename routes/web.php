@@ -34,24 +34,12 @@ Route::middleware('auth')->group(function () {
 
     // User Routes
     Route::get('/', [MainController::class, 'index'])->name('home');
-    
-    // Course Routes
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-    Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
-    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-    Route::get('/courses/{level}', [CourseController::class, 'showLevel'])->name('courses.showLevel');
-    Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
-    Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
-    Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
-    Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
-});
 
-
-// test route
-Route::get('/test', function () {
-
-    $user = User::with('courses')->where('id', 1)->first();
-
-    dd($user->courses->toArray());
+    // Level Routes
+    Route::prefix('levels/{level}')->group(function () {
+        Route::get('/', [CourseController::class, 'showLevel'])->name('levels.showLevel');
+        Route::resource('courses', CourseController::class)->except('index');
+    });
 
 });
+

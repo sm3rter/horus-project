@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class AuthController extends Controller
 {
@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         request()->session()->regenerate();
 
-        return redirect()->intended('/');
+        return redirect()->route('home');
     }
 
     public function logout(): RedirectResponse

@@ -22,13 +22,15 @@ class CourseSeeder extends Seeder
         $statuses = ProgressStatus::cases();
 
         for ($i = 0; $i < 5; $i++) {
+            $start = rand(8, 11);
+            $end = $start + rand(2, 4);
             $course = Course::create([
                 'code' => 'CS' . rand(100, 999),
                 'title' => 'Random Course ' . ($i + 1),
                 'course_level' => $courseLevels[rand(0, 4)],
                 'exam_type' => $examTypes[array_rand($examTypes)],
                 'exam_date' => now()->addDays(rand(1, 30))->format('Y-m-d'),
-                'duration' => rand(8, 14) . ':' . rand(10, 59),
+                'duration' => $start . ':' . $end,
                 'total_students' => rand(30, 60),
                 'answer_papers_status' => $statuses[array_rand($statuses)],
                 'year_work_status' => $statuses[array_rand($statuses)],

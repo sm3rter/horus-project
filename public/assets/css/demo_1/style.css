@@ -23209,7 +23209,9 @@ address p {
 
 .form-check-primary.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-primary.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #727cf5; }
+  border-color: #727cf5; 
+  background: #727cf5;
+}
 
 .form-check-secondary.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-secondary.form-check label input[type="radio"] + .input-frame:before {
@@ -23217,15 +23219,20 @@ address p {
 
 .form-check-secondary.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-secondary.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #7987a1; }
+  border-color: #7987a1; 
+  background: #7987a1;
+}
 
 .form-check-success.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-success.form-check label input[type="radio"] + .input-frame:before {
-  border-color: #10b759; }
+  border-color: #10b759; 
+}
 
 .form-check-success.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-success.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #10b759; }
+  border-color: #10b759; 
+  background: #10b759;
+}
 
 .form-check-info.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-info.form-check label input[type="radio"] + .input-frame:before {
@@ -23241,7 +23248,9 @@ address p {
 
 .form-check-warning.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-warning.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #fbbc06; }
+  border-color: #fbbc06; 
+  background: #fbbc06;
+}
 
 .form-check-danger.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-danger.form-check label input[type="radio"] + .input-frame:before {
@@ -23249,7 +23258,9 @@ address p {
 
 .form-check-danger.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-danger.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #ff3366; }
+  border-color: #ff3366; 
+  background: #ff3366;
+}
 
 .form-check-light.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-light.form-check label input[type="radio"] + .input-frame:before {
@@ -23257,7 +23268,9 @@ address p {
 
 .form-check-light.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-light.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #ececec; }
+  border-color: #ececec; 
+  background: #ececec;
+}
 
 .form-check-dark.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-dark.form-check label input[type="radio"] + .input-frame:before {
@@ -23265,7 +23278,9 @@ address p {
 
 .form-check-dark.form-check label input[type="checkbox"]:checked + .input-frame:before,
 .form-check-dark.form-check label input[type="radio"]:checked + .input-frame:before {
-  border-color: #282f3a; }
+  border-color: #282f3a; 
+  background: #282f3a;
+}
 
 .form-check-primary-muted.form-check label input[type="checkbox"] + .input-frame:before,
 .form-check-primary-muted.form-check label input[type="radio"] + .input-frame:before {

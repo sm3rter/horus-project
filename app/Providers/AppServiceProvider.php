@@ -24,12 +24,14 @@ class AppServiceProvider extends ServiceProvider
             return Auth::check() && Auth::user()->role === 'admin';
         });
 
-        Blade::if('isLinkActive', function ($route_name) {
-            return request()->routeIs($route_name) ? true : false;
-        });
-
         view()->composer('layouts.app', function ($view) {
-            $view->with('professorAvailableCourses', array_unique(auth()->user()->courses->pluck('course_level')->toArray()));
+            if(auth()->user()->isAdmin()) {
+                $courses = Course::orderBy('course_level')->pluck('course_level')->toArray();
+            } else {
+                $courses = auth()->user()->courses->orderBy('course_level')->pluck('course_level')->toArray();
+            }
+            $view->with('professorAvailableCourses', array_unique($courses));
         });
+        
     }
 }

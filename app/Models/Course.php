@@ -36,4 +36,14 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
     }
 
+    public function getStartTimeAttribute()
+    {
+        return explode(':', $this->duration)[0];
+    }
+
+    public function getEndTimeAttribute()
+    {
+        $times = explode(':', $this->duration);
+        return $times[1] <= $times[0] ? $times[1] + 12 : $times[1];
+    }
 }

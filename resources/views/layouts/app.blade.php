@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Admin Dashboard</title>
+	<title>Control System</title>
 	<link rel="stylesheet" href="{{ asset('assets/vendors/core/core.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
@@ -13,6 +13,7 @@
 	<link rel="icon" href="{{ asset('assets/images/cropped-Logo-e1723368648315-32x32.png') }}" sizes="32x32" />
 	<link rel="icon" href="{{ asset('assets/images/cropped-Logo-e1723368648315-192x192.png') }}" sizes="192x192" />
 	<link rel="apple-touch-icon" href="{{ asset('assets/images/cropped-Logo-e1723368648315-180x180.png') }}" />
+	@yield('styles')
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 		<nav class="sidebar">
 			<div class="sidebar-header">
 				<a href="{{ route('home') }}" class="sidebar-brand">
-					Admin<span>CP</span>
+					HUE<span><small> Control Sys.</small></span>
 				</a>
 				<div class="sidebar-toggler not-active">
 					<span></span>
@@ -33,50 +34,53 @@
 			<div class="sidebar-body">
 				<ul class="nav">
 					<li class="nav-item nav-category">Main</li>
-					<li class="nav-item">
+					<li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
 						<a href="{{ route('home') }}" class="nav-link">
-						  <i class="link-icon" data-feather="box"></i>
-						  <span class="link-title">Dashboard</span>
+							<i class="link-icon" data-feather="box"></i>
+							<span class="link-title">Dashboard</span>
 						</a>
 					</li>
 					@admin
-						<li class="nav-item nav-category">Admin</li>
-						<li class="nav-item @isLinkActive('admin.users.*') active @endisLinkActive">
-							<a class="nav-link" data-toggle="collapse" href="#users" role="button" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}" aria-controls="users">
-								<i class="link-icon" data-feather="users"></i>
-								<span class="link-title">Users</span>
-								<i class="link-arrow" data-feather="chevron-down"></i>
-							</a>
-							<div class="collapse @isLinkActive('admin.users.*') show @endisLinkActive" id="users">
-								<ul class="nav sub-menu">
-									<li class="nav-item">
-										<a href="{{ route('admin.users.index') }}" class="nav-link @isLinkActive('admin.users.index') active @endisLinkActive">All Users</a>
-									</li>
-									<li class="nav-item">
-										<a href="{{ route('admin.users.create') }}" class="nav-link @isLinkActive('admin.users.create') active @endisLinkActive">Add New User</a>
-									</li>
-								</ul>
-							</div>
-						</li>
+					<li class="nav-item nav-category">Admin</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#users" role="button" aria-expanded="false"
+							aria-controls="users">
+							<i class="link-icon" data-feather="users"></i>
+							<span class="link-title">Users</span>
+							<i class="link-arrow" data-feather="chevron-down"></i>
+						</a>
+						<div class="collapse show" id="users">
+							<ul class="nav sub-menu">
+								<li class="nav-item">
+									<a href="{{ route('admin.users.index') }}" class="nav-link">All Users</a>
+								</li>
+								<li class="nav-item">
+									<a href="{{ route('admin.users.create') }}" class="nav-link">Add New User</a>
+								</li>
+							</ul>
+						</div>
+					</li>
 					@endadmin
 					<li class="nav-item nav-category">Courses</li>
-					<li class="nav-item @isLinkActive('courses.*') active @endisLinkActive">
-						<a class="nav-link" data-toggle="collapse" href="#courses" role="button" aria-expanded="{{ request()->routeIs('courses.*') ? 'true' : 'false' }}" aria-controls="courses">
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#courses" role="button" aria-expanded="false"
+							aria-controls="courses">
 							<i class="link-icon" data-feather="book"></i>
 							<span class="link-title">Courses</span>
 							<i class="link-arrow" data-feather="chevron-down"></i>
 						</a>
-						<div class="collapse @isLinkActive('courses.*') show @endisLinkActive" id="courses">
+						<div class="collapse show" id="courses">
 							<ul class="nav sub-menu">
 								@foreach ($professorAvailableCourses as $courseLevel)
-									@php
-										$courseLevelNum = explode('_', $courseLevel)[1];
-									@endphp
-									<li class="nav-item">
-										<a href="{{ route('courses.showLevel', ['level' => 'level_' . $courseLevelNum]) }}" class="nav-link @isLinkActive('courses.showLevel', ['level' => 'level_' . $courseLevelNum]) active @endisLinkActive">	
-											{{ 'Level ' . $courseLevelNum }}
-										</a>
-									</li>
+								@php
+								$courseLevelNum = explode('_', $courseLevel)[1];
+								@endphp
+								<li class="nav-item">
+									<a href="{{ route('levels.showLevel', ['level' => 'level_' . $courseLevelNum]) }}"
+										class="nav-link">
+										{{ 'Level ' . $courseLevelNum }}
+									</a>
+								</li>
 								@endforeach
 							</ul>
 						</div>
@@ -121,7 +125,7 @@
 										<li class="nav-item">
 											<form action="{{ route('authentication.logout') }}" method="POST">
 												@csrf
-												<button type="submit" class="nav-link">
+												<button type="submit" class="btn btn-link nav-link">
 													<i data-feather="log-out"></i>
 													<span>Log Out</span>
 												</button>
@@ -154,6 +158,54 @@
 	<script src="{{ asset('assets/vendors/core/core.js') }}"></script>
 	<script src="{{ asset('assets/vendors/feather-icons/feather.min.js') }}"></script>
 	<script src="{{ asset('assets/js/template.js') }}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+		const currentPath = window.location.href;
+		const navLinks = document.querySelectorAll('.sidebar .nav-link');
+		navLinks.forEach(link => {
+			const href = link.getAttribute('href');
+			if (href === currentPath) {
+			link.classList.add('active');
+			const parentItem = link.closest('.nav-item');
+			if (parentItem) {
+				parentItem.classList.add('active');
+			}
+			const subMenu = link.closest('.sub-menu');
+			if (subMenu) {
+				const collapseElement = subMenu.closest('.collapse');
+				if (collapseElement) {
+				collapseElement.classList.add('show');
+				const collapseId = collapseElement.id;
+				const toggle = document.querySelector(`[href="#${collapseId}"]`);
+				if (toggle) {
+					toggle.setAttribute('aria-expanded', 'true');
+					const toggleParent = toggle.closest('.nav-item');
+					if (toggleParent) {
+					toggleParent.classList.add('active');
+					}
+				}
+				}
+			}
+			}
+		});
+		const collapseTriggers = document.querySelectorAll('.sidebar [data-toggle="collapse"]');
+		collapseTriggers.forEach(trigger => {
+			trigger.addEventListener('click', function(e) {
+			const targetId = this.getAttribute('href');
+			if (!targetId || !targetId.startsWith('#')) return;
+			const isExpanded = this.getAttribute('aria-expanded') === 'true';
+			this.setAttribute('aria-expanded', !isExpanded);
+			if (!isExpanded) {
+				const parentItem = this.closest('.nav-item');
+				if (parentItem) {
+				parentItem.classList.add('active');
+				}
+			}
+			});
+		});
+		});
+	</script>
+	@yield('scripts')
 </body>
 
 </html>

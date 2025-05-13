@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // User::factory()->create([
-        //     'name' => 'Mohamed Kamal',
-        //     'email' => 'mk@horus.com',
-        //     'password' => bcrypt('mk@horus.com'),
-        //     'role' => 'admin',
-        // ]);
-        // User::factory(10)->create();
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('admin'),
+            'role' => 'admin',
+        ]);
+        User::factory(10)->create();
         $this->call([
             CourseSeeder::class,
         ]);
