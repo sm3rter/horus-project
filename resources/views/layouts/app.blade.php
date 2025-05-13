@@ -68,12 +68,12 @@
 						</a>
 						<div class="collapse @isLinkActive('courses.*') show @endisLinkActive" id="courses">
 							<ul class="nav sub-menu">
-								@foreach (\App\Enums\CourseLevel::cases() as $courseLevel)
+								@foreach ($professorAvailableCourses as $courseLevel)
 									@php
-										$courseLevelNum = explode('_', $courseLevel->value)[1];
+										$courseLevelNum = explode('_', $courseLevel)[1];
 									@endphp
 									<li class="nav-item">
-										<a href="{{ route('courses.showLevel', ['level' => $courseLevelNum]) }}" class="nav-link @isLinkActive('courses.index', ['level' => $courseLevelNum]) active @endisLinkActive">	
+										<a href="{{ route('courses.showLevel', ['level' => 'level_' . $courseLevelNum]) }}" class="nav-link @isLinkActive('courses.showLevel', ['level' => 'level_' . $courseLevelNum]) active @endisLinkActive">	
 											{{ 'Level ' . $courseLevelNum }}
 										</a>
 									</li>

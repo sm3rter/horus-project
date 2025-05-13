@@ -40,21 +40,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/courses/{level}', [CourseController::class, 'showLevel'])->name('courses.showLevel');
-    Route::get('/courses/{level}/{course}', [CourseController::class, 'show'])->name('courses.show');
-    Route::get('/courses/{level}/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
-    Route::put('/courses/{level}/{course}', [CourseController::class, 'update'])->name('courses.update');
-    Route::delete('/courses/{level}/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
+    Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+    Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
+    Route::put('/courses/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::delete('/courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
 });
 
 
 // test route
 Route::get('/test', function () {
 
-    User::create([
-        'name' => 'Test User',
-        'email' => 'test@test.com',
-        'password' => 'password',
-        'role' => 'user',
-    ]);
+    $user = User::with('courses')->where('id', 1)->first();
+
+    dd($user->courses->toArray());
 
 });

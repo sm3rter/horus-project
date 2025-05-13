@@ -30,9 +30,10 @@ class CourseController extends Controller
         //
     }
 
-    public function showLevel(int $level)
+    public function showLevel(string $level)
     {
-        $courses = Course::where('course_level', $level)->get();
+        $courses = auth()->user()->courses->where('course_level', $level);
+        
         return view('courses.showLevel', compact('courses'));
     }
 
