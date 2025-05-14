@@ -34,9 +34,7 @@ class CourseController extends Controller
 
     public function showLevel(string $level)
     {
-        if(!in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4'])) {
-            abort(404);
-        }
+        abort_if(!is_null($level) && !in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']), 404);
 
         if(auth()->user()->isAdmin()) {
             $courses = Course::where('course_level', $level)->get();

@@ -46,4 +46,14 @@ class Course extends Model
         $times = explode(':', $this->duration);
         return $times[1] <= $times[0] ? $times[1] + 12 : $times[1];
     }
+
+    protected function casts()
+    {
+        return [
+            'model_answers_status' => 'boolean',
+            'answer_papers_status' => 'boolean',
+            'year_work_status' => 'boolean',
+            'exam_date' => 'date',
+        ];
+    }
 }
