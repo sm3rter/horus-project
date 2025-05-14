@@ -30,6 +30,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                @if($courses->isNotEmpty())
                 <div class="table-responsive pt-3">
                     <table class="table table-bordered text-center" id="reportTable">
                         <thead>
@@ -207,6 +208,11 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div class="alert alert-primary text-center" role="alert">
+                    No data found
+                </div>
+                @endif
             </div>
         </div>
     </div>

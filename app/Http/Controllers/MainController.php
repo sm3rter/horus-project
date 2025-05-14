@@ -12,8 +12,16 @@ class MainController extends Controller
     {
         $level = request()->query('course_level');
 
-        abort_if(!is_null($level) && !in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']), 404);
+
+        if(is_null($level)) {
+            
+            return to_route('home', ['course_level' => 'level_0']);
+        }
+
+
+        abort_if(!in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']), 404);
         
+
         $courses = Course::where('course_level', $level)->get();
         
         return view('home', compact('courses', 'level'));
