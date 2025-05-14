@@ -32,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('professorAvailableCourses', array_unique($courses));
         });
+
+        Gate::define('update-course', function (User $user, int $course) {
+            $course = Course::findOrFail($course);
+            return $user->isAdmin() || $user->courses->contains($course);
+        });
         
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->enum('exam_type', ['form', 'drawing', 'hall']);
-            $table->date('exam_date');
+            $table->string('exam_date');
             $table->string('code')->unique();
             $table->string('title')->unique();
             $table->integer('total_students');

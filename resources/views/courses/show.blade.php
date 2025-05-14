@@ -8,6 +8,15 @@
       <li class="breadcrumb-item active" aria-current="page">{{ $course->title }}</li>
     </ol>
 </nav>
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -18,40 +27,60 @@
                     @method('PUT')
                     <div class="form-group">
                         <label>Exam Type</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <select name="exam_type" class="form-control @error('exam_type') is-invalid @enderror" id="exampleFormControlSelect1">
                             <option selected="" disabled="">Select Exam Type</option>
-                            @foreach (App\Enums\ExamType::cases() as $examType)
+                            @foreach (\App\Enums\ExamType::cases() as $examType)
                                 <option value="{{ $examType->value }}" @selected($course->exam_type === $examType->value)>{{ $examType->name }}</option>
                             @endforeach
                         </select>
+                        @error('exam_type')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label>Exam Date</label>
                         <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                            <input value="{{ $course->exam_date }}" name="exam_date" type="text" class="form-control @error('exam_date') is-invalid @enderror"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                            @error('exam_date')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Exam Start Time</label>
-                                <div class="input-group date timepicker" id="datetimepickerStart" data-target-input="nearest">
+                                <div class="input-group date timepicker @error('exam_start_time') is-invalid @enderror" id="datetimepickerStart" data-target-input="nearest">
                                     <input value="{{ $course->start_time }}" name="exam_start_time" type="text" class="form-control datetimepicker-input" data-target="#datetimepickerStart"/>
                                     <div class="input-group-append" data-target="#datetimepickerStart" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i data-feather="clock"></i></div>
                                     </div>
-                                </div>                            
+                                </div>
+                                @error('exam_start_time')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Exam End Time</label>
-                                <div class="input-group date timepicker" id="datetimepickerEnd" data-target-input="nearest">
+                                <div class="input-group date timepicker @error('exam_end_time') is-invalid @enderror" id="datetimepickerEnd" data-target-input="nearest">
                                     <input value="{{ $course->end_time }}" name="exam_end_time" type="text" class="form-control datetimepicker-input" data-target="#datetimepickerEnd"/>
                                     <div class="input-group-append" data-target="#datetimepickerEnd" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i data-feather="clock"></i></div>
                                     </div>
                                 </div>
+                                @error('exam_end_time')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -61,37 +90,67 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Total</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->total_students }}">
+                                <input min="0" type="number" name="total_students" class="form-control @error('total_students') is-invalid @enderror" value="{{ $course->total_students }}">
+                                @error('total_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Withdraw</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->withdraw_students }}">
+                                <input min="0" type="number" name="withdraw_students" class="form-control @error('withdraw_students') is-invalid @enderror" value="{{ $course->withdraw_students }}">
+                                @error('withdraw_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Absent</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->total_absent_students }}">
+                                <input min="0" type="number" name="total_absent_students" class="form-control @error('total_absent_students') is-invalid @enderror" value="{{ $course->total_absent_students }}">
+                                @error('total_absent_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Present</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->total_present_students }}">
+                                <input min="0" type="number" name="total_present_students" class="form-control @error('total_present_students') is-invalid @enderror" value="{{ $course->total_present_students }}">
+                                @error('total_present_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Deprived</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->total_deprived_students }}">
+                                <input min="0" type="number" name="total_deprived_students" class="form-control @error('total_deprived_students') is-invalid @enderror" value="{{ $course->total_deprived_students }}">
+                                @error('total_deprived_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Incomplete</label>
-                                <input min="0" type="number" class="form-control" value="{{ $course->incomplete_students }}">
+                                <input min="0" type="number" name="incomplete_students" class="form-control @error('incomplete_students') is-invalid @enderror" value="{{ $course->incomplete_students }}">
+                                @error('incomplete_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -101,28 +160,43 @@
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input name="answer_papers_status" type="checkbox" class="form-check-input" @checked($course->answer_papers_status)>
+                                        <input name="answer_papers_status" type="checkbox" class="form-check-input @error('answer_papers_status') is-invalid @enderror" @checked($course->answer_papers_status)>
                                         Answer Papers
                                         <i class="input-frame"></i>
                                     </label>
+                                    @error('answer_papers_status')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input name="year_work_status" type="checkbox" class="form-check-input" @checked($course->year_work_status)>
+                                        <input name="year_work_status" type="checkbox" class="form-check-input @error('year_work_status') is-invalid @enderror" @checked($course->year_work_status)>
                                         Year Work
                                         <i class="input-frame"></i>
                                     </label>
+                                    @error('year_work_status')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input name="model_answers_status" type="checkbox" class="form-check-input" @checked($course->model_answers_status)>
+                                        <input name="model_answers_status" type="checkbox" class="form-check-input @error('model_answers_status') is-invalid @enderror" @checked($course->model_answers_status)>
                                         Model Answers
                                         <i class="input-frame"></i>
                                     </label>
+                                    @error('model_answers_status')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -132,13 +206,23 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Cheating</label>
-                                <input type="number" class="form-control" placeholder="Enter Cheating" value="{{ $course->cheating_students }}">
+                                <input name="cheating_students" type="number" class="form-control @error('cheating_students') is-invalid @enderror" placeholder="Enter Cheating" value="{{ $course->cheating_students }}">
+                                @error('cheating_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Misconduct</label>
-                                <input type="number" class="form-control" placeholder="Enter Misconduct" value="{{ $course->misconduct_students }}">
+                                <input name="misconduct_students" type="number" class="form-control @error('misconduct_students') is-invalid @enderror" placeholder="Enter Misconduct" value="{{ $course->misconduct_students }}">
+                                @error('misconduct_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -148,7 +232,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-warning form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="correction_status" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
+                                    <input name="correction_status" value="{{ \App\Enums\ProgressStatus::IN_PROGRESS->value }}" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
                                     In Progress
                                     <i class="input-frame"></i>
                                 </label>
@@ -157,7 +241,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-success form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="correction_status" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::COMPLETED->value)>
+                                    <input name="correction_status" value="{{ \App\Enums\ProgressStatus::COMPLETED->value }}" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::COMPLETED->value)>
                                     Completed
                                     <i class="input-frame"></i>
                                 </label>
@@ -166,12 +250,17 @@
                         <div class="col-sm-3">
                             <div class="form-check-danger form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="correction_status" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
+                                    <input name="correction_status" value="{{ \App\Enums\ProgressStatus::NOT_STARTED->value }}" type="radio" class="form-check-input" @checked($course->correction_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
                                     Not Started
                                     <i class="input-frame"></i>
                                 </label>
                             </div>
                         </div>
+                        @error('correction_status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="form-group row">
@@ -179,7 +268,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-warning form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="review_status" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
+                                    <input name="review_status" value="{{ \App\Enums\ProgressStatus::IN_PROGRESS->value }}" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
                                     In Progress
                                     <i class="input-frame"></i>
                                 </label>
@@ -188,7 +277,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-success form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="review_status" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::COMPLETED->value)>
+                                    <input name="review_status" value="{{ \App\Enums\ProgressStatus::COMPLETED->value }}" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::COMPLETED->value)>
                                     Completed
                                     <i class="input-frame"></i>
                                 </label>
@@ -197,12 +286,17 @@
                         <div class="col-sm-3">
                             <div class="form-check-danger form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="review_status" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
+                                    <input name="review_status" value="{{ \App\Enums\ProgressStatus::NOT_STARTED->value }}" type="radio" class="form-check-input" @checked($course->review_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
                                     Not Started
                                     <i class="input-frame"></i>
                                 </label>
                             </div>
                         </div>
+                        @error('review_status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="form-group row">
@@ -210,7 +304,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-warning form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_status" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
+                                    <input name="final_grades_status" value="{{ \App\Enums\ProgressStatus::IN_PROGRESS->value }}" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
                                     In Progress
                                     <i class="input-frame"></i>
                                 </label>
@@ -219,7 +313,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-success form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_status" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::COMPLETED->value)>
+                                    <input name="final_grades_status" value="{{ \App\Enums\ProgressStatus::COMPLETED->value }}" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::COMPLETED->value)>
                                     Completed
                                     <i class="input-frame"></i>
                                 </label>
@@ -228,20 +322,25 @@
                         <div class="col-sm-3">
                             <div class="form-check-danger form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_status" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
+                                    <input name="final_grades_status" value="{{ \App\Enums\ProgressStatus::NOT_STARTED->value }}" type="radio" class="form-check-input" @checked($course->final_grades_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
                                     Not Started
                                     <i class="input-frame"></i>
                                 </label>
                             </div>
                         </div>
+                        @error('final_grades_status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row border-bottom border-2 mb-3">
                         <label class="col-sm-3 col-form-label">Final Grades Review State</label>
                         <div class="col-sm-3">
                             <div class="form-check-warning form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_review_status" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
+                                    <input name="final_grades_review_status" value="{{ \App\Enums\ProgressStatus::IN_PROGRESS->value }}" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::IN_PROGRESS->value)>
                                     In Progress
                                     <i class="input-frame"></i>
                                 </label>
@@ -250,7 +349,7 @@
                         <div class="col-sm-3">
                             <div class="form-check-success form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_review_status" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::COMPLETED->value)>
+                                    <input name="final_grades_review_status" value="{{ \App\Enums\ProgressStatus::COMPLETED->value }}" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::COMPLETED->value)>
                                     Completed
                                     <i class="input-frame"></i>
                                 </label>
@@ -259,17 +358,27 @@
                         <div class="col-sm-3">
                             <div class="form-check-danger form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="final_grades_review_status" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
+                                    <input name="final_grades_review_status" value="{{ \App\Enums\ProgressStatus::NOT_STARTED->value }}" type="radio" class="form-check-input" @checked($course->final_grades_review_status === \App\Enums\ProgressStatus::NOT_STARTED->value)>
                                     Not Started
                                     <i class="input-frame"></i>
                                 </label>
                             </div>
                         </div>
+                        @error('final_grades_review_status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Notes</label>
-                        <textarea class="form-control pt-3" id="exampleFormControlTextarea1" rows="10" name="notes">{{ $course->notes }}</textarea>
+                        <textarea class="form-control pt-3 @error('notes') is-invalid @enderror" id="exampleFormControlTextarea1" rows="10" name="notes">{{ $course->notes }}</textarea>
+                        @error('notes')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <button class="btn btn-primary" type="submit">Update</button>
