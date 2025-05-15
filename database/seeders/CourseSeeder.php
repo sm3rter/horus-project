@@ -42,6 +42,8 @@ class CourseSeeder extends Seeder
                 'total_deprived_students' => rand(0, 2),
                 'cheating_students' => rand(0, 2),
                 'misconduct_students' => rand(0, 2),
+                'success_students' => rand(0, 10),
+                'failed_students' => rand(0, 10),
                 'correction_status' => $statuses[array_rand($statuses)],
                 'review_status' => $statuses[array_rand($statuses)],
                 'final_grades_status' => $statuses[array_rand($statuses)],

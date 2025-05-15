@@ -29,6 +29,8 @@ class Course extends Model
         'final_grades_review_status',
         'notes',
         'course_level',
+        'success_students',
+        'failed_students'
     ];
 
     public function professors()
@@ -45,6 +47,11 @@ class Course extends Model
     {
         $times = explode(':', $this->duration);
         return $times[1] <= $times[0] ? $times[1] + 12 : $times[1];
+    }
+
+    public function getTotalEligibleStudentsAttribute()
+    {
+        return $this->total_students - ($this->total_deprived_students + $this->incomplete_students + $this->withdraw_students);
     }
 
     protected function casts()

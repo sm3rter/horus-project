@@ -371,6 +371,31 @@
                         @enderror
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Success Students</label>
+                                <input name="success_students" type="number" class="form-control @error('success_students') is-invalid @enderror" placeholder="Enter Success" value="{{ $course->success_students }}">
+                                @error('success_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Failed Students</label>
+                                <input name="failed_students" type="number" class="form-control @error('failed_students') is-invalid @enderror" placeholder="Enter Failed" value="{{ $course->failed_students }}">
+                                @error('failed_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Notes</label>
                         <textarea class="form-control pt-3 @error('notes') is-invalid @enderror" id="exampleFormControlTextarea1" rows="10" name="notes">{{ $course->notes }}</textarea>

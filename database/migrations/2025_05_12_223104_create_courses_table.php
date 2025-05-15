@@ -29,6 +29,8 @@ return new class extends Migration
             $table->integer('total_deprived_students');
             $table->integer('cheating_students');
             $table->integer('misconduct_students');
+            $table->integer('success_students');
+            $table->integer('failed_students');
             $table->enum('correction_status', ['in_progress', 'completed', 'not_started']);
             $table->enum('review_status', ['in_progress', 'completed', 'not_started']);
             $table->enum('final_grades_status', ['in_progress', 'completed', 'not_started']);
