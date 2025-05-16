@@ -62,7 +62,7 @@ class CourseController extends Controller
             $courses = auth()->user()->courses->where('course_level', $level);
         }
         
-        return view('showLevel', compact('courses'));
+        return view('show-level', compact('courses'));
     }
 
     public function update(CourseUpdateRequest $request, string $level, int $id)
@@ -80,8 +80,10 @@ class CourseController extends Controller
         return to_route('courses.show', ['level' => $course->course_level, 'course' => $course->id])->with(['status' => true, 'message' => 'Course updated successfully']);
     }
 
-    public function destroy(string $id)
+    public function destroy(Course $course)
     {
-        //
+        $course->delete();
+
+        return to_route('levels.showLevel', ['level' => $course->course_level])->with(['status' => true, 'message' => 'Course deleted successfully']);
     }
 }

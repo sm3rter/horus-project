@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CourseController::class, 'showLevel'])->name('levels.showLevel');
         Route::resource('courses', CourseController::class)->only(['update', 'show']);
     });
-    Route::resource('courses', CourseController::class)->only(['store', 'create']);
+    Route::resource('courses', CourseController::class)->only(['store', 'create', 'destroy']);
 
 });
 
