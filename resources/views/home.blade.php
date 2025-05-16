@@ -35,6 +35,7 @@
                     <table class="table table-bordered text-center" id="reportTable">
                         <thead>
                             <tr>
+                                <th>✱</th>
                                 <th>Type</th>
                                 <th>Day</th>
                                 <th>تاريخ الامتحان</th>
@@ -62,9 +63,10 @@
                         <tbody>
                             @foreach($courses as $course)
                             <tr>
+                                <td @class([ 'bg-danger' => $course->created_at->diffInWeeks() >= 1 ])></td>
                                 <td>{{ $course->exam_type }}</td>
-                                <td>{{ $course->exam_date->format('l') }}</td>
-                                <td>{{ $course->exam_date->format('d M') }}</td>
+                                <td>{{ $course->exam_date ? $course->exam_date->format('l') : '' }}</td>
+                                <td>{{ $course->exam_date ? $course->exam_date->format('d M') : '' }}</td>
                                 <td>{{ $course->code }}</td>
                                 <td>{{ $course->title }}</td>
                                 <td>{{ $course->total_students }}</td>
@@ -143,7 +145,7 @@
 <div class="row mt-3">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" dir="rtl">
                 @if($courses->isNotEmpty())
                 <div class="table-responsive pt-3">
                     <table class="table table-bordered text-center align-middle" dir="rtl" style="vertical-align: middle;" id="reportTable2">
@@ -164,59 +166,45 @@
                                 <th colspan="2" class="table-info align-middle text-center">رسوب</th>
                             </tr>
                             <tr>
+                                @for($i = 0; $i < 9; $i++)
                                 <th class="table-info align-middle text-center">عدد</th>
                                 <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
-                                <th class="table-info align-middle text-center">عدد</th>
-                                <th class="table-info align-middle text-center">نسبة</th>
+                                @endfor
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($courses as $course)
-                            <tr>
+                            <tr {!! $course->created_at->diffInWeeks() >= 1 ? 'class="bg-danger text-white"' : '' !!}>
                                 <td class="align-middle text-center">{{ $course->title }}</td>
                                 <td class="align-middle text-center">{{ $course->code }}</td>
                                 <td class="align-middle text-center">{{ $course->total_students }}</td>
                     
                                 <td class="align-middle text-center">{{ $course->total_deprived_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->total_deprived_students / $course->total_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_students > 0 ? number_format(($course->total_deprived_students / $course->total_students) * 100, 2) : 0 }}%</td>
                     
                                 <td class="align-middle text-center">{{ $course->incomplete_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->incomplete_students / $course->total_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_students > 0 ? number_format(($course->incomplete_students / $course->total_students) * 100, 2) : 0 }}%</td>
 
                                 <td class="align-middle text-center">{{ $course->withdraw_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->withdraw_students / $course->total_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_students > 0 ? number_format(($course->withdraw_students / $course->total_students) * 100, 2) : 0 }}%</td>
                                 
                                 <td class="align-middle text-center">{{ $course->total_eligible_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->total_eligible_students / $course->total_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_students > 0 ? number_format(($course->total_eligible_students / $course->total_students) * 100, 2) : 0 }}%</td>
 
                                 <td class="align-middle text-center">{{ $course->total_present_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->total_present_students / $course->total_eligible_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_eligible_students > 0 ? number_format(($course->total_present_students / $course->total_eligible_students) * 100, 2) : 0 }}%</td>
 
                                 <td class="align-middle text-center">{{ $course->total_absent_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->total_absent_students / $course->total_eligible_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->total_eligible_students > 0 ? number_format(($course->total_absent_students / $course->total_eligible_students) * 100, 2) : 0 }}%</td>
 
-                                <td class="align-middle text-center">{{ $course->total_deprived_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->total_deprived_students / $course->total_eligible_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center">{{ $course->cheating_students }}</td>
+                                <td class="align-middle text-center">{{ $course->total_eligible_students > 0 ? number_format(($course->cheating_students / $course->total_eligible_students) * 100, 2) : 0 }}%</td>
 
                                 <td class="align-middle text-center">{{ $course->success_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->success_students / $course->total_eligible_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center {{ !($course->created_at->diffInWeeks() >= 1) ? ($course->total_eligible_students > 0 ? ($course->success_students / $course->total_eligible_students >= 0.50 ? 'table-success' : 'table-danger') : '') : '' }}">{{ $course->total_eligible_students > 0 ? number_format(($course->success_students / $course->total_eligible_students) * 100, 2) : 0 }}%</td>
 
                                 <td class="align-middle text-center">{{ $course->failed_students }}</td>
-                                <td class="align-middle text-center">{{ number_format(($course->failed_students / $course->total_eligible_students) * 100, 2) }}%</td>
+                                <td class="align-middle text-center {{ !($course->created_at->diffInWeeks() >= 1) ? ($course->total_eligible_students > 0 ? ($course->failed_students / $course->total_eligible_students >= 0.50 ? 'table-danger' : 'table-success') : '') : '' }}">{{ $course->total_eligible_students > 0 ? number_format(($course->failed_students / $course->total_eligible_students) * 100, 2) : 0 }}%</td>
                             </tr>
                             @endforeach
                         </tbody>

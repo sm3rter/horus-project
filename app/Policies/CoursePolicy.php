@@ -15,7 +15,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course): bool
     {
-        return $user->isAdmin() || $course->professors->contains($user);
+        return $user->isAdmin();
     }
 
     /**
@@ -31,7 +31,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course): bool
     {
-        return $user->isAdmin() || $course->professors->contains($user);
+        return $user->isAdmin();
     }
 
     /**

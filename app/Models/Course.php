@@ -30,22 +30,28 @@ class Course extends Model
         'notes',
         'course_level',
         'success_students',
-        'failed_students'
+        'failed_students',
+        'is_published',
+        'is_checked_by_dean',
     ];
 
-    public function professors()
-    {
-        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
-    }
-
+    
     public function getStartTimeAttribute()
     {
-        return explode(':', $this->duration)[0];
+        $times = array_filter(explode(':', $this->duration));
+        if (empty($times)) {
+            return null;
+        }
+
+        return $times[0];
     }
 
     public function getEndTimeAttribute()
     {
-        $times = explode(':', $this->duration);
+        $times = array_filter(explode(':', $this->duration));
+        if (empty($times)) {
+            return null;
+        }
         return $times[1] <= $times[0] ? $times[1] + 12 : $times[1];
     }
 

@@ -23,7 +23,8 @@
 		<nav class="sidebar">
 			<div class="sidebar-header">
 				<a href="{{ route('home') }}" class="sidebar-brand">
-					HUE<span><small> Control Sys.</small></span>
+					{{-- HUE<span><small> Control Sys.</small></span> --}}
+					<img src="{{ asset('assets/images/university_logo.png') }}" alt="logo" width="125">
 				</a>
 				<div class="sidebar-toggler not-active">
 					<span></span>
@@ -37,7 +38,7 @@
 					<li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
 						<a href="{{ route('home') }}" class="nav-link">
 							<i class="link-icon" data-feather="box"></i>
-							<span class="link-title">Dashboard</span>
+							<span class="link-title">Reports</span>
 						</a>
 					</li>
 					@admin
@@ -49,7 +50,7 @@
 							<span class="link-title">Users</span>
 							<i class="link-arrow" data-feather="chevron-down"></i>
 						</a>
-						<div class="collapse show" id="users">
+						<div class="collapse {{ request()->routeIs('admin.users.index', 'admin.users.create') ? 'show' : '' }}" id="users">
 							<ul class="nav sub-menu">
 								<li class="nav-item">
 									<a href="{{ route('admin.users.index') }}" class="nav-link">All Users</a>
@@ -60,8 +61,13 @@
 							</ul>
 						</div>
 					</li>
-					@endadmin
 					<li class="nav-item nav-category">Courses</li>
+					<li class="nav-item {{ request()->routeIs('courses.create') ? 'active' : '' }}">
+						<a href="{{ route('courses.create') }}" class="nav-link">
+							<i class="link-icon" data-feather="plus"></i>
+							<span class="link-title">Add New Course</span>
+						</a>
+					</li>
 					<li class="nav-item">
 						<a class="nav-link" data-toggle="collapse" href="#courses" role="button" aria-expanded="false"
 							aria-controls="courses">
@@ -69,22 +75,20 @@
 							<span class="link-title">Courses</span>
 							<i class="link-arrow" data-feather="chevron-down"></i>
 						</a>
-						<div class="collapse show" id="courses">
+						<div class="collapse {{ request()->routeIs('courses.showLevel') ? 'show' : '' }}" id="courses">
 							<ul class="nav sub-menu">
-								@foreach ($professorAvailableCourses as $courseLevel)
-								@php
-								$courseLevelNum = explode('_', $courseLevel)[1];
-								@endphp
+								@for ($i = 0; $i < 5; $i++)
 								<li class="nav-item">
-									<a href="{{ route('levels.showLevel', ['level' => 'level_' . $courseLevelNum]) }}"
+									<a href="{{ route('levels.showLevel', ['level' => 'level_' . $i]) }}"
 										class="nav-link">
-										{{ 'Level ' . $courseLevelNum }}
+										{{ 'Level ' . $i }}
 									</a>
 								</li>
-								@endforeach
+								@endfor
 							</ul>
 						</div>
 					</li>
+					@endadmin
 				</ul>
 			</div>
 		</nav>
@@ -99,6 +103,34 @@
 				</a>
 				<div class="navbar-content">
 					<ul class="navbar-nav">
+						@if($nonReadCheckedReports->count() > 0)
+						<li class="nav-item dropdown nav-notifications">
+							<a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i data-feather="bell" class="text-danger"></i>
+								<div class="indicator">
+									<div class="circle"></div>
+								</div>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="notificationDropdown">
+								<div class="dropdown-header d-flex align-items-center justify-content-between">
+									<p class="mb-0 font-weight-medium">{{  $nonReadCheckedReports->count() }} New Notifications</p>
+								</div>
+								<div class="dropdown-body">
+									@foreach($nonReadCheckedReports->take(5) as $report)
+									<a href="{{ route('home') }}" class="dropdown-item">
+										<div class="icon">
+											<i data-feather="alert-circle"></i>
+										</div>
+										<div class="content">
+											<p>{{ $report->title }}</p>
+											<p class="sub-text text-muted">{{ $report->created_at->diffForHumans() }}</p>
+										</div>
+									</a>
+									@endforeach
+								</div>
+							</div>
+						</li>
+						@endif
 						<li class="nav-item dropdown nav-profile">
 							<a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -135,6 +167,7 @@
 								</div>
 							</div>
 						</li>
+
 					</ul>
 				</div>
 			</nav>
@@ -147,9 +180,13 @@
 
 			<!-- partial:../../partials/_footer.html -->
 			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
-				<p class="text-muted text-center text-md-left">Copyright © 2020. All rights reserved</p>
-				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Handcrafted With <i
-						class="mb-1 text-primary ml-1 icon-small" data-feather="heart"></i></p>
+				<p class="text-muted text-center text-md-left">supervised by <span class="text-primary">Dr.Prof. Mohamed Kamal - Dr.Prof. Omar El-Kelany</span></p>
+				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Developed by 
+					<span class="text-primary">
+						<a href="https://wa.me/+201016773589" target="_blank">Ahmed's Team</a>
+					</span>
+					<span>Level 4 - Mechatronics Engineering</span>
+				</p>
 			</footer>
 			<!-- partial -->
 

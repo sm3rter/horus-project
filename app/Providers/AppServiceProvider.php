@@ -24,19 +24,7 @@ class AppServiceProvider extends ServiceProvider
             return Auth::check() && Auth::user()->role === 'admin';
         });
 
-        view()->composer('layouts.app', function ($view) {
-            if(auth()->user()->isAdmin()) {
-                $courses = Course::orderBy('course_level')->pluck('course_level')->toArray();
-            } else {
-                $courses = auth()->user()->courses->orderBy('course_level')->pluck('course_level')->toArray();
-            }
-            $view->with('professorAvailableCourses', array_unique($courses));
-        });
-
-        Gate::define('update-course', function (User $user, int $course) {
-            $course = Course::findOrFail($course);
-            return $user->isAdmin() || $user->courses->contains($course);
-        });
+        view()->share('nonReadCheckedReports', Course::where('created_at', '=<', now()->subWeek())->get());
         
     }
 }

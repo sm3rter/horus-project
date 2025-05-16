@@ -20397,12 +20397,12 @@ address p {
             top: 0px;
             right: 2px; }
             .navbar .navbar-content .navbar-nav .nav-item .nav-link .indicator .circle {
-              background: #727cf5;
+              background-color: var(--danger);
               width: 7px;
               height: 7px;
               border-radius: 50%; }
               .navbar .navbar-content .navbar-nav .nav-item .nav-link .indicator .circle::before {
-                background-color: #727cf5;
+                background-color: var(--danger);
                 content: "";
                 display: table;
                 border-radius: 50%;
@@ -20575,8 +20575,8 @@ address p {
             border-top: 1px solid #f2f4f9;
             font-size: 14px; }
         .navbar .navbar-content .navbar-nav .nav-item.nav-profile .nav-link img {
-          width: 30px;
-          height: 30px;
+          width: 25px;
+          height: 25px;
           border-radius: 50%; }
         .navbar .navbar-content .navbar-nav .nav-item.nav-profile .dropdown-menu {
           padding: 20px;

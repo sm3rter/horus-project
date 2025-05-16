@@ -24,8 +24,19 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label for="password">Password (optional)</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    @error('password')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
                     <label for="role">Role</label>
-                    <input type="text" class="form-control" id="role" name="role" value="{{ $user->role }}">
+                    <select class="form-control" id="role" name="role">
+                        @foreach($roles as $role)
+                            <option value="{{ $role }}" {{ $user->role == $role ? 'selected' : '' }}>{{ $role }}</option>
+                        @endforeach
+                    </select>
                     @error('role')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

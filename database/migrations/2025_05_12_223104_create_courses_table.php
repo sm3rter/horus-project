@@ -13,38 +13,33 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->enum('exam_type', ['form', 'drawing', 'hall']);
-            $table->string('exam_date');
+            $table->enum('exam_type', ['form', 'drawing', 'hall'])->default('form');
+            $table->string('exam_date')->nullable();
             $table->string('code')->unique();
             $table->string('title')->unique();
-            $table->integer('total_students');
-            $table->string('duration');
-            $table->boolean('answer_papers_status');
-            $table->boolean('year_work_status');
-            $table->boolean('model_answers_status');
-            $table->integer('incomplete_students');
-            $table->integer('withdraw_students');
-            $table->integer('total_absent_students');
-            $table->integer('total_present_students');
-            $table->integer('total_deprived_students');
-            $table->integer('cheating_students');
-            $table->integer('misconduct_students');
-            $table->integer('success_students');
-            $table->integer('failed_students');
-            $table->enum('correction_status', ['in_progress', 'completed', 'not_started']);
-            $table->enum('review_status', ['in_progress', 'completed', 'not_started']);
-            $table->enum('final_grades_status', ['in_progress', 'completed', 'not_started']);
-            $table->enum('final_grades_review_status', ['in_progress', 'completed', 'not_started']);
-            $table->text('notes');
-            $table->enum('course_level', ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']);
+            $table->integer('total_students')->nullable();
+            $table->string('duration')->nullable();
+            $table->boolean('answer_papers_status')->nullable();
+            $table->boolean('year_work_status')->nullable();
+            $table->boolean('model_answers_status')->nullable();
+            $table->integer('incomplete_students')->nullable();
+            $table->integer('withdraw_students')->nullable();
+            $table->integer('total_absent_students')->nullable();
+            $table->integer('total_present_students')->nullable();
+            $table->integer('total_deprived_students')->nullable();
+            $table->integer('cheating_students')->nullable();
+            $table->integer('misconduct_students')->nullable();
+            $table->integer('success_students')->nullable();
+            $table->integer('failed_students')->nullable();
+            $table->enum('correction_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
+            $table->enum('review_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
+            $table->enum('final_grades_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
+            $table->enum('final_grades_review_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
+            $table->text('notes')->nullable();
+            $table->string('course_level')->nullable();
+            $table->boolean('is_published')->default(false);
+            $table->boolean('is_checked_by_dean')->default(false);
             $table->timestamps();
-        });
-
-        Schema::create('course_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('course_id')->constrained()->cascadeOnUpdate()->nullableOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->nullableOnDelete();
-            $table->unique(['course_id', 'user_id']);
         });
     }
 
@@ -53,7 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_user');
         Schema::dropIfExists('courses');
     }
 };

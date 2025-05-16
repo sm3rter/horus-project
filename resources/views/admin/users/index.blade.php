@@ -25,13 +25,17 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
                             <td>
-                                <div>
+                                <div class="d-flex">
                                     <button onclick="window.location.href='{{ route('admin.users.edit', $user->id) }}'" class="btn btn-primary btn-icon">
-                                        <i data-feather="check-square"></i>
+                                        <i data-feather="edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-icon">
-                                        <i data-feather="trash-2"></i>
-                                    </button>
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="ml-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-icon">
+                                            <i data-feather="trash-2"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

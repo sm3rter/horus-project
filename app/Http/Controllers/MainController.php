@@ -22,7 +22,7 @@ class MainController extends Controller
         abort_if(!in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']), 404);
         
 
-        $courses = Course::where('course_level', $level)->get();
+        $courses = Course::where('course_level', $level)->whereIsPublished(true)->get();
         
         return view('home', compact('courses', 'level'));
     }

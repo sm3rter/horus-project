@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Course;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -14,7 +14,7 @@ class CourseUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-course', $this->route('course'));
+        return $this->user()->isAdmin();
     }
 
     /**
@@ -25,6 +25,9 @@ class CourseUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'required|string|max:255|unique:courses,title,'.(int)$this->route('course'),
+            'code' => 'required|string|max:255|unique:courses,code,'.(int)$this->route('course'),
+            'course_level' => 'required|string|in:level_0,level_1,level_2,level_3,level_4',
             'exam_type' => ['required', Rule::enum(\App\Enums\ExamType::class)],
             'exam_date' => 'required|string',
             'exam_start_time' => 'required|string',
@@ -47,6 +50,7 @@ class CourseUpdateRequest extends FormRequest
             'answer_papers_status' => 'nullable',
             'year_work_status' => 'nullable',
             'model_answers_status' => 'nullable',
+            'is_published' => 'nullable',
         ];
     }
 

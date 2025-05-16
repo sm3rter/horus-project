@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('can:admin')->name('admin.')->prefix('admin')->group(function () {
         Route::get('/add-new-user', [AdminController::class, 'create'])->name('add-new-user');
-        Route::resource('users', AdminController::class);
+        Route::resource('users', AdminController::class)->except('show');
     });
 
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -38,8 +38,9 @@ Route::middleware('auth')->group(function () {
     // Level Routes
     Route::prefix('levels/{level}')->group(function () {
         Route::get('/', [CourseController::class, 'showLevel'])->name('levels.showLevel');
-        Route::resource('courses', CourseController::class)->except('index');
+        Route::resource('courses', CourseController::class)->only(['update', 'show']);
     });
+    Route::resource('courses', CourseController::class)->only(['store', 'create']);
 
 });
 

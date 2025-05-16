@@ -4,10 +4,8 @@ $(function() {
 
   $('#datetimepickerStart').datetimepicker({
     format: 'LT',
-    defaultDate: moment()
   });
   $('#datetimepickerEnd').datetimepicker({
     format: 'LT',
-    defaultDate: moment()
   });
 });
