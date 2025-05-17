@@ -8,15 +8,6 @@
       <li class="breadcrumb-item active" aria-current="page">{{ $course->title }}</li>
     </ol>
 </nav>
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
@@ -115,20 +106,9 @@
                     <div class="row py-3 my-2 border-bottom border-1 border-top">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="exampleInputNumber1">Total</label>
-                                <input min="0" type="number" name="total_students" class="form-control @error('total_students') is-invalid @enderror" value="{{ $course->total_students }}">
-                                @error('total_students')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="exampleInputNumber1">Withdraw</label>
-                                <input min="0" type="number" name="withdraw_students" class="form-control @error('withdraw_students') is-invalid @enderror" value="{{ $course->withdraw_students }}">
-                                @error('withdraw_students')
+                                <label for="exampleInputNumber1">Present</label>
+                                <input min="0" type="number" name="total_present_students" class="form-control @error('total_present_students') is-invalid @enderror" value="{{ $course->total_present_students }}">
+                                @error('total_present_students')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -148,9 +128,20 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="exampleInputNumber1">Present</label>
-                                <input min="0" type="number" name="total_present_students" class="form-control @error('total_present_students') is-invalid @enderror" value="{{ $course->total_present_students }}">
-                                @error('total_present_students')
+                                <label for="exampleInputNumber1">Withdraw</label>
+                                <input min="0" type="number" name="withdraw_students" class="form-control @error('withdraw_students') is-invalid @enderror" value="{{ $course->withdraw_students }}">
+                                @error('withdraw_students')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputNumber1">Incomplete</label>
+                                <input min="0" type="number" name="incomplete_students" class="form-control @error('incomplete_students') is-invalid @enderror" value="{{ $course->incomplete_students }}">
+                                @error('incomplete_students')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -170,9 +161,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="exampleInputNumber1">Incomplete</label>
-                                <input min="0" type="number" name="incomplete_students" class="form-control @error('incomplete_students') is-invalid @enderror" value="{{ $course->incomplete_students }}">
-                                @error('incomplete_students')
+                                <label for="exampleInputNumber1">Total</label>
+                                <input min="0" type="number" name="total_students" class="form-control @error('total_students') is-invalid @enderror" value="{{ $course->total_students }}">
+                                @error('total_students')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -459,6 +450,85 @@
 <script src="{{ asset('assets/js/template.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/timepicker.js') }}"></script>
+<script>
+    // Function to calculate total
+    function calculateTotal() {
+        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
+        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
+        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
+        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
+        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
+
+        const total = present + absent + withdraw + incomplete + deprived;
+        const totalInput = document.querySelector('input[name="total_students"]');
+        totalInput.value = total;
+        
+        // Remove any existing error message
+        const existingError = totalInput.parentElement.querySelector('.total-error');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+
+    // Function to validate total
+    function validateTotal() {
+        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
+        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
+        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
+        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
+        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
+        const totalInput = document.querySelector('input[name="total_students"]');
+        const enteredTotal = parseInt(totalInput.value) || 0;
+
+        const calculatedTotal = present + absent + withdraw + incomplete + deprived;
+
+        // Remove any existing error message
+        const existingError = totalInput.parentElement.querySelector('.total-error');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        if (enteredTotal !== calculatedTotal) {
+            // Add error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback total-error';
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = `<strong>Total must equal the sum of all student counts (${calculatedTotal})</strong>`;
+            totalInput.classList.add('is-invalid');
+            totalInput.parentElement.appendChild(errorDiv);
+            return false;
+        } else {
+            totalInput.classList.remove('is-invalid');
+            return true;
+        }
+    }
+
+    // Add event listeners to all student count inputs
+    const studentInputs = [
+        'total_present_students',
+        'total_absent_students',
+        'withdraw_students',
+        'incomplete_students',
+        'total_deprived_students'
+    ];
+
+    studentInputs.forEach(inputName => {
+        document.querySelector(`input[name="${inputName}"]`).addEventListener('input', calculateTotal);
+    });
+
+    // Add validation on total input change
+    document.querySelector('input[name="total_students"]').addEventListener('input', validateTotal);
+
+    // Add form validation before submit
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!validateTotal()) {
+            e.preventDefault();
+        }
+    });
+
+    // Calculate initial total on page load
+    document.addEventListener('DOMContentLoaded', calculateTotal);
+</script>
 @endsection
 
 @section('styles')

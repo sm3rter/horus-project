@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\ExamType;
+use App\Enums\ProgressStatus;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -11,9 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        $progressStatus = collect(ProgressStatus::cases())->pluck('value')->toArray();
+        
+        Schema::create('courses', function (Blueprint $table) use ($progressStatus) {
             $table->id();
-            $table->enum('exam_type', ['form', 'drawing', 'hall'])->default('form');
+            $table->enum('exam_type', collect(ExamType::cases())->pluck('value')->toArray())->default('form');
             $table->string('exam_date')->nullable();
             $table->string('code')->unique();
             $table->string('title')->unique();
@@ -31,10 +35,10 @@ return new class extends Migration
             $table->integer('misconduct_students')->nullable();
             $table->integer('success_students')->nullable();
             $table->integer('failed_students')->nullable();
-            $table->enum('correction_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
-            $table->enum('review_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
-            $table->enum('final_grades_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
-            $table->enum('final_grades_review_status', ['in_progress', 'completed', 'not_started'])->default('not_started');
+            $table->enum('correction_status', $progressStatus)->default('not_started');
+            $table->enum('review_status', $progressStatus)->default('not_started');
+            $table->enum('final_grades_status', $progressStatus)->default('not_started');
+            $table->enum('final_grades_review_status', $progressStatus)->default('not_started');
             $table->text('notes')->nullable();
             $table->string('course_level')->nullable();
             $table->boolean('is_published')->default(false);

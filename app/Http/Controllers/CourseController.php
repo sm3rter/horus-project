@@ -15,20 +15,28 @@ class CourseController extends Controller
         return view('courses.create');
     }
 
-    private function prepareDate(array $data)
+    private function prepareData(array $data)
     {
         $data['exam_date'] = isset($data['exam_date']) ? Carbon::parse($data['exam_date'])->format('d M') : null;
-        $data['exam_start_time'] = isset($data['exam_start_time']) ? (int)$data['exam_start_time'][0] + (int)$data['exam_start_time'][1]/60 : null;
-        $data['exam_end_time'] = isset($data['exam_end_time']) ? (int)$data['exam_end_time'][0] + (int)$data['exam_end_time'][1]/60 : null;
-        $data['duration'] = isset($data['exam_start_time']) && isset($data['exam_end_time']) ? $data['exam_start_time'] . ':' . $data['exam_end_time'] : null;
         
-        if(isset($data['exam_start_time'])) {
-            unset($data['exam_start_time']);
-        }
-        if(isset($data['exam_end_time'])) {
-            unset($data['exam_end_time']);
+        if (isset($data['exam_start_time'])) {
+            $time = Carbon::createFromFormat('h:i A', $data['exam_start_time']);
+            $hours = (float)$time->format('G');
+            $minutes = (float)$time->format('i');
+            $data['exam_start_time'] = round($hours + ($minutes / 60), 1);
         }
         
+        if (isset($data['exam_end_time'])) {
+            $time = Carbon::createFromFormat('h:i A', $data['exam_end_time']);
+            $hours = (float)$time->format('G');
+            $minutes = (float)$time->format('i');
+            $data['exam_end_time'] = round($hours + ($minutes / 60), 1);
+        }
+
+        if (isset($data['exam_start_time']) && isset($data['exam_end_time'])) {
+            $data['duration'] = $data['exam_start_time'] . ' : ' .  $data['exam_end_time'];
+        }
+
         foreach (['answer_papers_status', 'year_work_status', 'model_answers_status'] as $field) {
             $data[$field] = isset($data[$field]) && $data[$field] === 'on';
         }
@@ -40,7 +48,7 @@ class CourseController extends Controller
 
     public function store(CourseStoreRequest $request)
     {
-        Course::create($this->prepareDate($request->validated()));
+        Course::create($this->prepareData($request->validated()));
 
         return back()->with(['status' => true, 'message' => 'Course created successfully']);
     }
@@ -72,7 +80,7 @@ class CourseController extends Controller
                 ->firstOrFail();
                 
         $course->update(
-            $this->prepareDate(
+            $this->prepareData(
                 $request->validated()
             )
         );

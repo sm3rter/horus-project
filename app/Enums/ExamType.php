@@ -6,5 +6,5 @@ enum ExamType: string
 {
     case FORM = 'form';
     case DRAWING = 'drawing';
-    case HALL = 'hall';
+    case WRITTEN = 'written';
 }
