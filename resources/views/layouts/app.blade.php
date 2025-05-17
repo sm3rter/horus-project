@@ -16,7 +16,7 @@
 	@yield('styles')
 </head>
 
-<body>
+<body class="sidebar-dark">
 	<div class="main-wrapper">
 
 		<!-- partial:../../partials/_sidebar.html -->
@@ -24,7 +24,10 @@
 			<div class="sidebar-header">
 				<a href="{{ route('home') }}" class="sidebar-brand">
 					{{-- HUE<span><small> Control Sys.</small></span> --}}
-					<img src="{{ asset('assets/images/university_logo.png') }}" alt="logo" width="125">
+					<div class="d-flex justify-content-between">
+						<img src="{{ asset('assets/images/mecha-logo.png') }}" alt="logo" width="55">
+						<img src="{{ asset('assets/images/faculty-logo.png') }}" alt="logo" width="55">
+					</div>
 				</a>
 				<div class="sidebar-toggler not-active">
 					<span></span>
@@ -94,7 +97,7 @@
 		</nav>
 		<!-- partial -->
 
-		<div class="page-wrapper">
+		<div class="page-wrapper" style="background-color:#fdfdfd;">
 
 			<!-- partial:../../partials/_navbar.html -->
 			<nav class="navbar">
@@ -180,10 +183,10 @@
 
 			<!-- partial:../../partials/_footer.html -->
 			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
-				<p class="text-muted text-center text-md-left">supervised by <span class="text-primary">Dr.Prof. Mohamed Kamal - Dr.Prof. Omar El-Kelany</span></p>
+				<p class="text-muted text-center text-md-left">supervised by <span class="text-primary">Assoc. Prof. Dr. Mohammed Kamal - Prof. Dr. Hatem Khater</span></p>
 				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Developed by 
 					<span class="text-primary">
-						<a href="https://wa.me/+201016773589" target="_blank">Ahmed's Team</a>
+						<a href="https://wa.me/+201016773589" target="_blank">X Team</a>
 					</span>
 					<span>Level 4 - Mechatronics Engineering</span>
 				</p>

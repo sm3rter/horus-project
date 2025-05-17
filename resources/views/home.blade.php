@@ -6,7 +6,7 @@
         <ul class="nav nav-tabs">
             @foreach(['level_0', 'level_1', 'level_2', 'level_3', 'level_4'] as $levelValue)
             <li class="nav-item">
-                <a class="nav-link {{ $level == $levelValue ? 'active' : '' }}"
+                <a class="nav-link {{ $level == $levelValue ? 'active' : 'text-blueblack' }}"
                     href="{{ route('home', ['course_level' => $levelValue]) }}">
                     {{ ucfirst(str_replace('_', ' ', $levelValue)) }}
                 </a>
@@ -15,13 +15,9 @@
         </ul>
     </div>
     {{-- <div class="d-flex align-items-center flex-wrap text-nowrap">
-        <button type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
+        <button type="button" id="saveAsPDFButton" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
             <i class="btn-icon-prepend" data-feather="printer"></i>
-            Print
-        </button>
-        <button type="button" id="export2xlsxButton" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
-            <i class="btn-icon-prepend" data-feather="file"></i>
-            Export to Excel
+            Save as PDF
         </button>
     </div> --}}
 </div>
@@ -90,7 +86,7 @@
                                         'bg-warning' => $course->correction_status == 'in_progress',
                                         'text-white' => $course->correction_status !== 'in_progress',
                                         ])>
-                                        {{ $course->correction_status }}
+                                        {{ ucfirst(str_replace('_', ' ', $course->correction_status)) }}
                                     </div>
                                 </td>
                                 <td>
@@ -99,7 +95,7 @@
                                         'bg-warning' => $course->review_status == 'in_progress',
                                         'text-white' => $course->review_status !== 'in_progress',
                                         ])>
-                                        {{ $course->review_status }}
+                                        {{ ucfirst(str_replace('_', ' ', $course->review_status)) }}
                                     </div>
                                 </td>
                                 <td>
@@ -108,7 +104,7 @@
                                         'bg-warning' => $course->final_grades_status == 'in_progress',
                                         'text-white' => $course->final_grades_status !== 'in_progress',
                                         ])>
-                                        {{ $course->final_grades_status }}
+                                        {{ ucfirst(str_replace('_', ' ', $course->final_grades_status)) }}
                                     </div>
                                 </td>
                                 <td>
@@ -118,7 +114,7 @@
                                         'bg-warning' => $course->final_grades_review_status == 'in_progress',
                                         'text-white' => $course->final_grades_review_status !== 'in_progress',
                                         ])>
-                                        {{ $course->final_grades_review_status }}
+                                        {{ ucfirst(str_replace('_', ' ', $course->final_grades_review_status)) }}
                                     </div>
                                 </td>
                                 <td>{{ $course->notes }}</td>
@@ -219,4 +215,12 @@
         </div>
     </div>
 </div>
+@endsection
+@section('styles')
+<style>
+    .text-blueblack {
+        color: #292558;
+        font-weight: 600;
+    }
+</style>
 @endsection

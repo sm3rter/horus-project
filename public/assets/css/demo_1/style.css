@@ -11039,7 +11039,8 @@ input[type="button"].btn-block {
       border-color: transparent; }
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
-    color: #000;
+    color: #e7a706;
+    font-weight: 700;
     background-color: #ffffff;
     border-color: #ebedf2 #ebedf2 #ffffff; }
   .nav-tabs .dropdown-menu {
@@ -20057,7 +20058,7 @@ code {
   letter-spacing: -1px;
   color: #031a61; }
   .noble-ui-logo span {
-    color: #727cf5;
+    color: #bd9848;
     font-weight: 300; }
   .noble-ui-logo:hover {
     color: #031a61; }
@@ -20662,7 +20663,7 @@ address p {
       letter-spacing: -1px;
       color: #031a61; }
       .sidebar .sidebar-header .sidebar-brand span {
-        color: #727cf5;
+        color: #e7a706;
         font-weight: 300; }
     .sidebar .sidebar-header .sidebar-toggler {
       cursor: pointer;
@@ -20896,7 +20897,7 @@ address p {
             -webkit-transition: all .3s ease;
             transition: all .3s ease; }
           .sidebar .sidebar-body .nav .nav-item .nav-link[aria-expanded="true"] {
-            color: #727cf5; }
+            color: #e7a706; }
             .sidebar .sidebar-body .nav .nav-item .nav-link[aria-expanded="true"] .link-arrow {
               -webkit-transform: rotate(90deg);
               transform: rotate(180deg); }
@@ -20911,24 +20912,24 @@ address p {
           .sidebar .sidebar-body .nav .nav-item.nav-category:not(:first-child) {
             margin-top: 20px; }
         .sidebar .sidebar-body .nav .nav-item:hover .nav-link {
-          color: #727cf5; }
+          color: #e7a706; }
           .sidebar .sidebar-body .nav .nav-item:hover .nav-link .link-title {
             margin-left: 31px; }
           .sidebar .sidebar-body .nav .nav-item:hover .nav-link .link-icon {
-            color: #727cf5;
+            color: #e7a706;
             fill: rgba(239, 243, 255, 0.5); }
         .sidebar .sidebar-body .nav .nav-item.active .nav-link {
-          color: #727cf5; }
+          color: #e7a706; }
           .sidebar .sidebar-body .nav .nav-item.active .nav-link::before {
             content: '';
             width: 3px;
             height: 26px;
-            background: #727cf5;
+            background: #e7a706;
             position: absolute;
             left: -25px; }
           .sidebar .sidebar-body .nav .nav-item.active .nav-link .link-icon {
             fill: rgba(239, 243, 255, 0.5);
-            color: #727cf5; }
+            color: #e7a706; }
       .sidebar .sidebar-body .nav.sub-menu {
         padding: 0 0 15px 33px; }
         .sidebar .sidebar-body .nav.sub-menu .nav-item {
@@ -20953,16 +20954,16 @@ address p {
               -webkit-transition: all .4s ease-in-out;
               transition: all .4s ease-in-out; }
             .sidebar .sidebar-body .nav.sub-menu .nav-item .nav-link.active {
-              color: #727cf5; }
+              color: #e7a706; }
               .sidebar .sidebar-body .nav.sub-menu .nav-item .nav-link.active::before {
-                border: 1px solid #727cf5;
-                background: #727cf5; }
+                border: 1px solid #e7a706;
+                background: #e7a706; }
           .sidebar .sidebar-body .nav.sub-menu .nav-item:hover .nav-link {
-            color: #727cf5;
+            color: #e7a706;
             margin-left: 3px; }
             .sidebar .sidebar-body .nav.sub-menu .nav-item:hover .nav-link::before {
-              border: 1px solid #727cf5;
-              background: #727cf5; }
+              border: 1px solid #e7a706;
+              background: #e7a706; }
   @media (max-width: 991px) {
     .sidebar {
       z-index: 999;
@@ -20979,17 +20980,16 @@ address p {
           margin: 0; } }
 
 .sidebar-dark .sidebar .sidebar-header {
-  background: #0c1427;
-  border-bottom: 1px solid #344258;
-  border-right: 1px solid #344258; }
+  background: #ffffff;
+  border-bottom: 1px solid #f2f4f9;
+  border-right: 1px solid #f2f4f9; }
   .sidebar-dark .sidebar .sidebar-header .sidebar-brand {
     color: #f8f9fc; }
   .sidebar-dark .sidebar .sidebar-header .sidebar-toggler span {
     background: #9fa2ab; }
 
 .sidebar-dark .sidebar .sidebar-body {
-  background: #0c1427;
-  border-right: 1px solid #344258; }
+  background: url('/assets/images/bg-m.jpg'); }
   .sidebar-dark .sidebar .sidebar-body .nav .nav-item.nav-category {
     color: #ffffff; }
   .sidebar-dark .sidebar .sidebar-body .nav .nav-item .nav-link {
@@ -20997,11 +20997,11 @@ address p {
     .sidebar-dark .sidebar .sidebar-body .nav .nav-item .nav-link svg {
       fill: none; }
     .sidebar-dark .sidebar .sidebar-body .nav .nav-item .nav-link[aria-expanded="true"] {
-      color: #727cf5; }
+      color: #e7a706; }
   .sidebar-dark .sidebar .sidebar-body .nav .nav-item:hover .nav-link svg, .sidebar-dark .sidebar .sidebar-body .nav .nav-item.active .nav-link svg {
     fill: rgba(114, 124, 245, 0.2); }
   .sidebar-dark .sidebar .sidebar-body .nav .nav-item:hover .nav-link .link-title, .sidebar-dark .sidebar .sidebar-body .nav .nav-item.active .nav-link .link-title {
-    color: #727cf5; }
+    color: #e7a706; }
 
 .settings-sidebar {
   position: fixed;
@@ -24084,14 +24084,6 @@ select {
       border-left: 5px solid transparent; }
   .rtl .chat-wrapper .chat-content .chat-body .messages .message-item.me .content span {
     text-align: left; }
-
-.auth-page .auth-left-wrapper {
-  background-position: center;
-  height: 100%;
-  background-image: url(/assets/images/loginBackground.webp);
-  background-size: cover;
-  background-repeat: no-repeat;    
-  filter: opacity(0.9);}
   
 
 @media (min-width: 992px) {
