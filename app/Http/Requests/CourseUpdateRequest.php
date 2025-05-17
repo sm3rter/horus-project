@@ -27,7 +27,7 @@ class CourseUpdateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|unique:courses,title,'.(int)$this->route('course'),
             'code' => 'required|string|max:255|unique:courses,code,'.(int)$this->route('course'),
-            'course_level' => 'required|string|in:level_0,level_1,level_2,level_3,level_4',
+            'course_level' => 'required|string|exists:levels,name',
             'exam_type' => ['required', Rule::enum(\App\Enums\ExamType::class)],
             'exam_date' => 'required|string',
             'exam_start_time' => 'required|string',

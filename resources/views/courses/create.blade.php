@@ -33,9 +33,11 @@
                         <code>*</code>
                         <select name="course_level" class="form-control @error('course_level') is-invalid @enderror" id="exampleFormControlSelect1">
                             <option selected="" disabled="">Select Level</option>
-                            @for($i = 0; $i < 5; $i++)
-                                <option value="{{ 'level_' . $i }}" {{ old('course_level') == 'level_' . $i ? 'selected' : '' }}>{{ 'Level ' . $i }}</option>
-                            @endfor
+                            @foreach($levels as $level)
+                                <option value="{{ $level->name }}" {{ old('course_level') == $level->name ? 'selected' : ($selectedLevel == $level->name ? 'selected' : '') }}>
+                                    {{ ucfirst(str_replace('_', ' ', $level->name)) }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('course_level')
                             <span class="invalid-feedback" role="alert">
@@ -455,86 +457,7 @@
 <script src="{{ asset('assets/js/template.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/timepicker.js') }}"></script>
-
-<script>
-    // Function to calculate total
-    function calculateTotal() {
-        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
-        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
-        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
-        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
-        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
-
-        const total = present + absent + withdraw + incomplete + deprived;
-        const totalInput = document.querySelector('input[name="total_students"]');
-        totalInput.value = total;
-        
-        // Remove any existing error message
-        const existingError = totalInput.parentElement.querySelector('.total-error');
-        if (existingError) {
-            existingError.remove();
-        }
-    }
-
-    // Function to validate total
-    function validateTotal() {
-        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
-        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
-        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
-        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
-        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
-        const totalInput = document.querySelector('input[name="total_students"]');
-        const enteredTotal = parseInt(totalInput.value) || 0;
-
-        const calculatedTotal = present + absent + withdraw + incomplete + deprived;
-
-        // Remove any existing error message
-        const existingError = totalInput.parentElement.querySelector('.total-error');
-        if (existingError) {
-            existingError.remove();
-        }
-
-        if (enteredTotal !== calculatedTotal) {
-            // Add error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'invalid-feedback total-error';
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = `<strong>Total must equal the sum of all student counts (${calculatedTotal})</strong>`;
-            totalInput.classList.add('is-invalid');
-            totalInput.parentElement.appendChild(errorDiv);
-            return false;
-        } else {
-            totalInput.classList.remove('is-invalid');
-            return true;
-        }
-    }
-
-    // Add event listeners to all student count inputs
-    const studentInputs = [
-        'total_present_students',
-        'total_absent_students',
-        'withdraw_students',
-        'incomplete_students',
-        'total_deprived_students'
-    ];
-
-    studentInputs.forEach(inputName => {
-        document.querySelector(`input[name="${inputName}"]`).addEventListener('input', calculateTotal);
-    });
-
-    // Add validation on total input change
-    document.querySelector('input[name="total_students"]').addEventListener('input', validateTotal);
-
-    // Add form validation before submit
-    document.querySelector('form').addEventListener('submit', function(e) {
-        if (!validateTotal()) {
-            e.preventDefault();
-        }
-    });
-
-    // Calculate initial total on page load
-    document.addEventListener('DOMContentLoaded', calculateTotal);
-</script>
+<script src="{{ asset('assets/js/course-validation.js') }}"></script>
 @endsection
 
 @section('styles')

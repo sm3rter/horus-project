@@ -12,7 +12,9 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('courses.create');
+        $selectedLevel = request()->query('selected_level') ?? '';
+
+        return view('courses.create', compact('selectedLevel'));
     }
 
     private function prepareData(array $data)
@@ -53,45 +55,26 @@ class CourseController extends Controller
         return back()->with(['status' => true, 'message' => 'Course created successfully']);
     }
 
-    public function show(string $level, int $course)
-    {        
-        $course = Course::where('course_level', $level)->where('id', $course)->firstOrFail();
-        
+    public function show(Course $course)
+    {                
         return view('courses.show', compact('course'));
     }
 
-    public function showLevel(string $level)
+    public function update(CourseUpdateRequest $request, Course $course)
     {
-        abort_if(!is_null($level) && !in_array($level, ['level_0', 'level_1', 'level_2', 'level_3', 'level_4']), 404);
-
-        if(auth()->user()->isAdmin()) {
-            $courses = Course::where('course_level', $level)->get();
-        }else{
-            $courses = auth()->user()->courses->where('course_level', $level);
-        }
-        
-        return view('show-level', compact('courses'));
-    }
-
-    public function update(CourseUpdateRequest $request, string $level, int $id)
-    {
-        $course = Course::where('course_level', $level)
-                ->where('id', $id)
-                ->firstOrFail();
-                
         $course->update(
             $this->prepareData(
                 $request->validated()
             )
         );
 
-        return to_route('courses.show', ['level' => $course->course_level, 'course' => $course->id])->with(['status' => true, 'message' => 'Course updated successfully']);
+        return to_route('courses.show', $course->id)->with(['status' => true, 'message' => 'Course updated successfully']);
     }
 
     public function destroy(Course $course)
     {
         $course->delete();
 
-        return to_route('levels.showLevel', ['level' => $course->course_level])->with(['status' => true, 'message' => 'Course deleted successfully']);
+        return to_route('levels.show', $course->course_level)->with(['status' => true, 'message' => 'Course deleted successfully']);
     }
 }

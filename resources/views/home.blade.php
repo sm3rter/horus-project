@@ -4,11 +4,11 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
         <ul class="nav nav-tabs">
-            @foreach(['level_0', 'level_1', 'level_2', 'level_3', 'level_4'] as $levelValue)
+            @foreach($levels as $level)
             <li class="nav-item">
-                <a class="nav-link {{ $level == $levelValue ? 'active' : 'text-blueblack' }}"
-                    href="{{ route('home', ['course_level' => $levelValue]) }}">
-                    {{ ucfirst(str_replace('_', ' ', $levelValue)) }}
+                <a class="nav-link {{ request()->query('level') == $level->name ? 'active' : 'text-blueblack' }}"
+                    href="{{ route('home', ['level' => $level->name]) }}">
+                    {{ ucfirst(str_replace('_', ' ', $level->name)) }}
                 </a>
             </li>
             @endforeach
@@ -67,12 +67,9 @@
                                 <td>{{ $course->title }}</td>
                                 <td>{{ $course->total_students }}</td>
                                 <td>{{ $course->duration }}</td>
-                                <td>{!! $course->answer_papers_status ? '<span class="text-success fs-1">✓</span>' : ''
-                                    !!}</td>
-                                <td>{!! $course->year_work_status ? '<span class="text-success fw-bold">✓</span>' : ''
-                                    !!}</td>
-                                <td>{!! $course->model_answers_status ? '<span class="text-success fw-bold">✓</span>' :
-                                    '' !!}</td>
+                                <td>{!! $course->answer_papers_status ? '<span class="badge badge-success">Completed</span>' : '<span class="badge badge-danger">Not Completed</span>' !!}</td>
+                                <td>{!! $course->year_work_status ? '<span class="badge badge-success">Completed</span>' : '<span class="badge badge-danger">Not Completed</span>' !!}</td>
+                                <td>{!! $course->model_answers_status ? '<span class="badge badge-success">Completed</span>' : '<span class="badge badge-danger">Not Completed</span>' !!}</td>
                                 <td class="table-secondary">{{ $course->incomplete_students }}</td>
                                 <td class="table-secondary">{{ $course->withdraw_students }}</td>
                                 <td class="table-info">{{ $course->total_absent_students }}</td>

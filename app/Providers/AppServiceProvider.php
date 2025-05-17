@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Level;
 use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -26,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
 
         view()->share('nonReadCheckedReports', Course::where('created_at', '=<', now()->subWeek())->get());
         
+        view()->share('levels', Level::with('courses')->get());
     }
 }

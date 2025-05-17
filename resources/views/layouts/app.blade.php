@@ -45,49 +45,48 @@
 						</a>
 					</li>
 					@admin
-					<li class="nav-item nav-category">Admin</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="collapse" href="#users" role="button" aria-expanded="false"
-							aria-controls="users">
-							<i class="link-icon" data-feather="users"></i>
-							<span class="link-title">Users</span>
-							<i class="link-arrow" data-feather="chevron-down"></i>
+					<li class="nav-item nav-category">Users</li>
+					<li class="nav-item {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
+						<a href="{{ route('admin.users.create') }}" class="nav-link">
+							<i class="link-icon" data-feather="plus"></i>
+							<span class="link-title">New User</span>
 						</a>
-						<div class="collapse {{ request()->routeIs('admin.users.index', 'admin.users.create') ? 'show' : '' }}" id="users">
-							<ul class="nav sub-menu">
-								<li class="nav-item">
-									<a href="{{ route('admin.users.index') }}" class="nav-link">All Users</a>
-								</li>
-								<li class="nav-item">
-									<a href="{{ route('admin.users.create') }}" class="nav-link">Add New User</a>
-								</li>
-							</ul>
-						</div>
 					</li>
-					<li class="nav-item nav-category">Courses</li>
+					<li class="nav-item {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+						<a href="{{ route('admin.users.index') }}" class="nav-link">
+							<i class="link-icon" data-feather="users"></i>
+							<span class="link-title">All Users</span>
+						</a>
+					</li>
+					<li class="nav-item nav-category">Control Levels</li>
+					<li class="nav-item {{ request()->routeIs('levels.create') ? 'active' : '' }}">
+						<a href="{{ route('levels.create') }}" class="nav-link">
+							<i class="link-icon" data-feather="plus"></i>
+							<span class="link-title">New Level</span>
+						</a>
+					</li>
 					<li class="nav-item {{ request()->routeIs('courses.create') ? 'active' : '' }}">
 						<a href="{{ route('courses.create') }}" class="nav-link">
 							<i class="link-icon" data-feather="plus"></i>
-							<span class="link-title">Add New Course</span>
+							<span class="link-title">New Course</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="collapse" href="#courses" role="button" aria-expanded="false"
-							aria-controls="courses">
+						<a class="nav-link" data-toggle="collapse" href="#levels" role="button" aria-expanded="false"
+							aria-controls="levels">
 							<i class="link-icon" data-feather="book"></i>
-							<span class="link-title">Courses</span>
+							<span class="link-title">Levels</span>
 							<i class="link-arrow" data-feather="chevron-down"></i>
 						</a>
-						<div class="collapse {{ request()->routeIs('courses.showLevel') ? 'show' : '' }}" id="courses">
+						<div class="collapse {{ request()->routeIs('levels.show') ? 'show' : '' }}" id="levels">
 							<ul class="nav sub-menu">
-								@for ($i = 0; $i < 5; $i++)
+								@foreach($levels as $level)
 								<li class="nav-item">
-									<a href="{{ route('levels.showLevel', ['level' => 'level_' . $i]) }}"
-										class="nav-link">
-										{{ 'Level ' . $i }}
+									<a href="{{ route('levels.show', $level->name) }}" class="nav-link">
+										{{ ucfirst(str_replace('_', ' ', $level->name)) }}
 									</a>
 								</li>
-								@endfor
+								@endforeach
 							</ul>
 						</div>
 					</li>
@@ -186,7 +185,7 @@
 				<p class="text-muted text-center text-md-left">supervised by <span class="text-primary">Assoc. Prof. Dr. Mohammed Kamal - Prof. Dr. Hatem Khater</span></p>
 				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Developed by 
 					<span class="text-primary">
-						<a href="https://wa.me/+201016773589" target="_blank">X Team</a>
+						<a href="https://wa.me/+201016773589" target="_blank">Ahmed Emad</a>
 					</span>
 					<span>Level 4 - Mechatronics Engineering</span>
 				</p>

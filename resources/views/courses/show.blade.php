@@ -4,7 +4,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-      <li class="breadcrumb-item"><a href="{{ route('levels.showLevel', $course->course_level) }}">{{ $course->course_level }}</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('levels.show', $course->course_level) }}">{{ $course->course_level }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ $course->title }}</li>
     </ol>
 </nav>
@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="text-uppercase mb-4 font-weight-bolder">{{ $course->title }} <span class="text-muted" style="font-size: 1rem;">({{ $course->code }})</span></h4>
-                <form action="{{ route('courses.update', ['level' => $course->course_level, 'course' => $course->id]) }}" method="POST">
+                <form action="{{ route('courses.update', $course->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -37,8 +37,8 @@
                     <div class="form-group">
                         <label>Course Level</label>
                         <select name="course_level" class="form-control @error('course_level') is-invalid @enderror" id="exampleFormControlSelect1">
-                            @foreach (['level_0', 'level_1', 'level_2', 'level_3', 'level_4'] as $courseLevel)
-                                <option value="{{ $courseLevel }}" @selected($course->course_level === $courseLevel)>{{ ucfirst(str_replace('_', ' ', $courseLevel)) }}</option>
+                            @foreach ($levels as $courseLevel)
+                                <option value="{{ $courseLevel->name }}" @selected($course->course_level === $courseLevel->name)>{{ ucfirst(str_replace('_', ' ', $courseLevel->name)) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -450,84 +450,9 @@
 <script src="{{ asset('assets/js/template.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/timepicker.js') }}"></script>
+<script src="{{ asset('assets/js/course-validation.js') }}"></script>
 <script>
-    // Function to calculate total
-    function calculateTotal() {
-        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
-        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
-        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
-        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
-        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
-
-        const total = present + absent + withdraw + incomplete + deprived;
-        const totalInput = document.querySelector('input[name="total_students"]');
-        totalInput.value = total;
-        
-        // Remove any existing error message
-        const existingError = totalInput.parentElement.querySelector('.total-error');
-        if (existingError) {
-            existingError.remove();
-        }
-    }
-
-    // Function to validate total
-    function validateTotal() {
-        const present = parseInt(document.querySelector('input[name="total_present_students"]').value) || 0;
-        const absent = parseInt(document.querySelector('input[name="total_absent_students"]').value) || 0;
-        const withdraw = parseInt(document.querySelector('input[name="withdraw_students"]').value) || 0;
-        const incomplete = parseInt(document.querySelector('input[name="incomplete_students"]').value) || 0;
-        const deprived = parseInt(document.querySelector('input[name="total_deprived_students"]').value) || 0;
-        const totalInput = document.querySelector('input[name="total_students"]');
-        const enteredTotal = parseInt(totalInput.value) || 0;
-
-        const calculatedTotal = present + absent + withdraw + incomplete + deprived;
-
-        // Remove any existing error message
-        const existingError = totalInput.parentElement.querySelector('.total-error');
-        if (existingError) {
-            existingError.remove();
-        }
-
-        if (enteredTotal !== calculatedTotal) {
-            // Add error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'invalid-feedback total-error';
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = `<strong>Total must equal the sum of all student counts (${calculatedTotal})</strong>`;
-            totalInput.classList.add('is-invalid');
-            totalInput.parentElement.appendChild(errorDiv);
-            return false;
-        } else {
-            totalInput.classList.remove('is-invalid');
-            return true;
-        }
-    }
-
-    // Add event listeners to all student count inputs
-    const studentInputs = [
-        'total_present_students',
-        'total_absent_students',
-        'withdraw_students',
-        'incomplete_students',
-        'total_deprived_students'
-    ];
-
-    studentInputs.forEach(inputName => {
-        document.querySelector(`input[name="${inputName}"]`).addEventListener('input', calculateTotal);
-    });
-
-    // Add validation on total input change
-    document.querySelector('input[name="total_students"]').addEventListener('input', validateTotal);
-
-    // Add form validation before submit
-    document.querySelector('form').addEventListener('submit', function(e) {
-        if (!validateTotal()) {
-            e.preventDefault();
-        }
-    });
-
-    // Calculate initial total on page load
-    document.addEventListener('DOMContentLoaded', calculateTotal);
+    document.addEventListener('DOMContentLoaded', updateSuccessFailedCounts);
 </script>
 @endsection
 
@@ -536,3 +461,4 @@
 <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css') }}">
 @endsection
+

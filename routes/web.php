@@ -1,12 +1,11 @@
 <?php
 
 
-use App\Models\User;
-use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\CourseController;
 
 Route::permanentRedirect('/authentication', '/authentication/login');
@@ -36,11 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [MainController::class, 'index'])->name('home');
 
     // Level Routes
-    Route::prefix('levels/{level}')->group(function () {
-        Route::get('/', [CourseController::class, 'showLevel'])->name('levels.showLevel');
-        Route::resource('courses', CourseController::class)->only(['update', 'show']);
-    });
-    Route::resource('courses', CourseController::class)->only(['store', 'create', 'destroy']);
+    Route::resource('courses', CourseController::class);
+
+    Route::resource('levels', LevelController::class)->except(['update', 'edit']);
 
 });
 

@@ -69,4 +69,9 @@ class Course extends Model
             'exam_date' => 'date',
         ];
     }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'course_level', 'name');
+    }
 }

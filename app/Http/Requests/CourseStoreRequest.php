@@ -28,7 +28,7 @@ class CourseStoreRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|unique:courses',
             'code' => 'required|string|max:255|unique:courses',
-            'course_level' => 'required|string|in:level_0,level_1,level_2,level_3,level_4',
+            'course_level' => 'required|string|exists:levels,name',
             'exam_type' => ['nullable', 'string', Rule::enum(ExamType::class)],
             'exam_date' => 'nullable|string',
             'exam_start_time' => 'nullable|string',
